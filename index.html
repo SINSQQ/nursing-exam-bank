@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بنك أسئلة التمريض</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; background-color: #f4f4f9; }
+        .question { background: white; padding: 15px; margin-bottom: 15px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .options { list-style: none; padding: 0; }
+        .option { margin: 5px 0; cursor: pointer; padding: 10px; border: 1px solid #ddd; border-radius: 4px; }
+        .option:hover { background: #eef; }
+        .correct { background-color: #d4edda !important; border-color: #c3e6cb !important; }
+        .wrong { background-color: #f8d7da !important; border-color: #f5c6cb !important; }
+    </style>
+</head>
+<body>
+    <h1>اختبار التمريض</h1>
+    <div id="quiz"></div>
+    <script>
+        const questions = [
+            {q: "During attack of angina the best drug taken is:", options: ["Oral nitrates", "Sublingual nitrates", "Oral propranolol", "Oral aspirin"], a: 1},
+            {q: "Which of the following is antihypertensive drug that inhibit ACE:", options: ["Propranolol", "Nefidipine", "Captopril", "Losartan"], a: 2},
+            {q: "Which of the following drugs increase myocardial contractility and used in heart failure:", options: ["Digoxin", "Frusemide", "Propranolol", "Captopril"], a: 0},
+            {q: "Which of the following used to treat bronchial asthma by blocking M3 receptors:", options: ["Theophylline", "Salmeterol", "Ipratropium", "Ketotifen"], a: 2},
+            {q: "The best analgesic in patient with myocardial infarction:", options: ["Aspirin", "Ibuprofen", "Morphine", "Paracetamol"], a: 2},
+            {q: "Propranolol used in:", options: ["Hypertension", "Heart failure", "Pulmonary edema", "All of the above"], a: 0},
+            {q: "The 1st line in treating diarrhea is:", options: ["Antibiotics", "Fluid replacement", "Cortisone", "Aspirin"], a: 1},
+            {q: "Which of the following is antihypertensive drug that block alpha receptors:", options: ["Captopril", "Nefidipine", "Prazosin", "Verapamil"], a: 2},
+            {q: "Which of the following is Ca channel blocker:", options: ["Verapamil", "Propranolol", "Prazosin", "Ramipril"], a: 0},
+            {q: "Pharmacokinetics does not include:", options: ["Absorption", "Mechanism of drug action", "Distribution", "Metabolism"], a: 1},
+            {q: "Which of the following is parasympatholytic drug:", options: ["Morphine", "Adrenaline", "Atropine", "Prazosin"], a: 2},
+            {q: "The mechanism by which propranolol acts:", options: ["Block beta receptors", "Block alpha receptors", "Inhibit DNA", "Inhibit folic acid synthesis"], a: 0},
+            {q: "Vasodilators used in:", options: ["Hypertension", "Edema", "All of the above", "Non of the above"], a: 0},
+            {q: "The best route of aminophylline in acute severe asthma:", options: ["Inhalation", "Rectal", "Intravenous infusion", "Oral"], a: 2},
+            {q: "The most serious complication of adrenaline:", options: ["Hypersensitivity", "Hypertension", "Arrhythmias", "Lipodystrophy"], a: 2},
+            {q: "The best type of contraception in lactation:", options: ["Combined pills", "Estrogen containing pills", "Progesterone containing pills", "Non of the above"], a: 2},
+            {q: "Which of the following is disadvantage of rectal route:", options: ["Rapid onset", "No 1st pass metabolism", "Irregular absorption", "Suitable for comatose"], a: 2},
+            {q: "Drugs with Vd 30 L:", options: ["Present in plasma only", "Dialysis is useless", "Tight bound to plasma proteins", "Don’t need monitoring"], a: 1},
+            {q: "The best treatment of hypertension in pregnancy is:", options: ["Thiazides", "ACEIs", "ARBs", "Alpha methyl dopa"], a: 3},
+            {q: "Nitrates act by:", options: ["Block beta receptors", "Increase sodium excretion", "Increase NO synthesis", "Stimulate alpha receptors"], a: 2},
+            {q: "Side effects of atropine doesn’t include:", options: ["Dry mouth", "Urine retention", "Increased heart rate", "Diarrhea"], a: 3},
+            {q: "Which sympatholytic used in prostatic enlargement:", options: ["Propranolol", "Prazosin", "Adrenaline", "Glargine"], a: 1},
+            {q: "Which of the following isn’t use of corticosteroids:", options: ["Osteoporosis", "Prevent organ rejection", "Maturation of fetal lung", "Addison disease"], a: 0},
+            {q: "The effect of sympathomimetics on bronchial system include:", options: ["Bronchospasm", "Increase airway secretions", "Bronchodilatation", "Non of the above"], a: 2},
+            {q: "Propranolol used in the following diseases except:", options: ["Hypertension", "Tachycardia", "Bronchial asthma", "Thyrotoxicosis"], a: 2},
+            {q: "Contraindication of adrenaline include:", options: ["Cardiac arrest", "Acute severe asthma", "Local anaesthetics", "Thyrotoxicosis"], a: 3},
+            {q: "Which of the following suitable in coma:", options: ["Oral", "Intravenous", "Subcutaneous", "Inhalation"], a: 1}
+        ];
+
+        const container = document.getElementById('quiz');
+        questions.forEach((item, index) => {
+            const div = document.createElement('div');
+            div.className = 'question';
+            div.innerHTML = `<p>${index+1}. ${item.q}</p><ul class="options">${item.options.map((opt, i) => `<li class="option" onclick="check(${index}, ${i}, this)">${opt}</li>`).join('')}</ul>`;
+            container.appendChild(div);
+        });
+
+        function check(qIdx, optIdx, el) {
+            const correct = questions[qIdx].a;
+            if(optIdx === correct) el.classList.add('correct');
+            else {
+                el.classList.add('wrong');
+                el.parentElement.children[correct].classList.add('correct');
+            }
+            Array.from(el.parentElement.children).forEach(c => c.onclick = null);
+        }
+    </script>
+</body>
+</html>

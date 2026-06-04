@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Nursing Exam Quiz</title>
+  <style>
+    *{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#f7f8fb;color:#20232a}.wrap{max-width:860px;margin:0 auto;padding:16px}.card{background:#fff;border:1px solid #d9deea;border-radius:8px;padding:16px}.home{text-align:center;padding:34px 16px}.home h1{margin:0 0 8px;color:#244c85;font-size:26px}.q{font-size:18px;line-height:1.5;margin:12px 0}.opts{display:grid;gap:8px}.opt{border:1px solid #cbd3df;border-radius:8px;background:#fff;padding:12px;text-align:right;cursor:pointer;line-height:1.45;font:inherit}.opt:hover{background:#f4f7fb;border-color:#244c85}.opt.correct{background:#e9f6f1;border-color:#147a5c;color:#0b5b43}.opt.wrong{background:#fff0f0;border-color:#b32d2e;color:#8a2020}.btn{border:1px solid #cbd3df;border-radius:6px;background:#fff;padding:10px 14px;cursor:pointer;font:inherit;text-decoration:none;color:#20232a;display:inline-block;margin:4px}.btn.primary{background:#244c85;border-color:#244c85;color:#fff}.row{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}.title{font-weight:700;color:#244c85}
+  </style>
+</head>
+<body>
+<main class="wrap"><div id="app"></div></main>
+<script>
+const QUESTIONS = [
+  {q: "During attack of angina the best drug taken is:", o: ["Oral nitrates", "Sublingual nitrates", "Oral propranolol", "Oral aspirin"], a: 1},
+  {q: "Which of the following is antihypertensive drug that inhibit ACE:", o: ["Propranolol", "Nefidipine", "Captopril", "Losartan"], a: 2},
+  {q: "Which of the following drugs increase myocardial contractility and used in heart failure:", o: ["Digoxin", "Frusemide", "Propranolol", "Captopril"], a: 0},
+  {q: "Which of the following used to treat bronchial asthma by blocking M3 receptors:", o: ["Theophylline", "Salmeterol", "Ipratropium", "Ketotifen"], a: 2},
+  {q: "The best analgesic in patient with myocardial infarction:", o: ["Aspirin", "Ibuprofen", "Morphine", "Paracetamol"], a: 2},
+  {q: "Propranolol used in:", o: ["Hypertension", "Heart failure", "Pulmonary edema", "All of the above"], a: 0},
+  {q: "The 1st line in treating diarrhea is:", o: ["Antibiotics", "Fluid replacement", "Cortisone", "Aspirin"], a: 1},
+  {q: "Which of the following is antihypertensive drug that block alpha receptors:", o: ["Captopril", "Nefidipine", "Prazosin", "Verapamil"], a: 2},
+  {q: "Which of the following is Ca channel blocker:", o: ["Verapamil", "Propranolol", "Prazosin", "Ramipril"], a: 0},
+  {q: "Pharmacokinetics does not include:", o: ["Absorption", "Mechanism of drug action", "Distribution", "Metabolism"], a: 1},
+  {q: "Which of the following is parasympatholytic drug:", o: ["Morphine", "Adrenaline", "Atropine", "Prazosin"], a: 2},
+  {q: "The mechanism by which propranolol act:", o: ["Block beta receptors", "Block alpha receptors", "Inhibit DNA", "Inhibit folic acid synthesis"], a: 0},
+  {q: "Vasodilators used in:", o: ["Hypertension", "Edema", "All of the above", "Non of the above"], a: 0},
+  {q: "The best route of aminophylline in acute severe asthma:", o: ["Inhalation", "Rectal", "Intravenous infusion", "Oral"], a: 2},
+  {q: "The most serious complication of adrenaline:", o: ["Hypersensitivity", "Hypertension", "Arrhythmias", "Lipodystrophy"], a: 2},
+  {q: "The best type of contraception in lactation:", o: ["Combined pills", "Estrogen containing pills", "Progesterone containing pills", "Non of the above"], a: 2},
+  {q: "Which of the following is disadvantage of rectal route:", o: ["Rapid onset", "No 1st pass metabolism", "Irregular absorption", "Suitable for comatose"], a: 2},
+  {q: "Drugs with Vd 30 L:", o: ["Present in plasma only", "Dialysis is useless", "Tight bound to plasma proteins", "Don’t need monitoring"], a: 1},
+  {q: "The best treatment of hypertension in pregnancy is:", o: ["Thiazides", "ACEIs", "ARBs", "Alpha methyl dopa"], a: 3},
+  {q: "Nitrates act by:", o: ["Block beta receptors", "Increase sodium excretion", "Increase NO synthesis", "Stimulate alpha receptors"], a: 2},
+  {q: "Side effects of atropine doesn’t include:", o: ["Dry mouth", "Urine retention", "Increased heart rate", "Diarrhea"], a: 3},
+  {q: "Which sympatholytic used in prostatic enlargement:", o: ["Propranolol", "Prazosin", "Adrenaline", "Glargine"], a: 1},
+  {q: "Which of the following isn’t use of corticosteroids:", o: ["Osteoporosis", "Prevent organ rejection", "Maturation of fetal lung", "Addison disease"], a: 0},
+  {q: "The effect of sympathomimetics on bronchial system include:", o: ["Bronchospasm", "Increase airway secretions", "Bronchodilatation", "Non of the above"], a: 2},
+  {q: "Propranolol used in the following diseases except:", o: ["Hypertension", "Tachycardia", "Bronchial asthma", "Thyrotoxicosis"], a: 2},
+  {q: "Contraindication of adrenaline include:", o: ["Cardiac arrest", "Acute severe asthma", "Local anaesthetics", "Thyrotoxicosis"], a: 3},
+  {q: "Which of the following suitable in coma:", o: ["Oral", "Intravenous", "Subcutaneous", "Inhalation"], a: 1},
+  {q: "A urinary tract infection (UTI) can occur in the kidneys, ureters, bladder, or urethra.", o: ["True", "False"], a: 0},
+  {q: "Women get UTIs less frequently than men because their urethra is longer.", o: ["True", "False"], a: 1},
+  {q: "Elderly people in nursing homes are at higher risk for UTIs.", o: ["True", "False"], a: 0},
+  {q: "Pregnancy is NOT a risk factor for developing a UTI.", o: ["True", "False"], a: 1},
+  {q: "Immobility is a risk factor for urinary tract infection.", o: ["True", "False"], a: 0},
+  {q: "Hematuria (blood in the urine) is a symptom of UTI.", o: ["True", "False"], a: 0},
+  {q: "Nocturia refers to the absence of urination at night.", o: ["True", "False"], a: 1},
+  {q: "A urine culture is performed to identify the type of bacteria and choose the appropriate antibiotic.", o: ["True", "False"], a: 0},
+  {q: "A mild case of cystitis always requires antibiotic treatment.", o: ["True", "False"], a: 1},
+  {q: "Chronic or recurrent UTI may require antibiotic therapy for up to 6 months to 2 years.", o: ["True", "False"], a: 0},
+  {q: "Patients should wipe from back to front after toileting to prevent UTIs.", o: ["True", "False"], a: 1},
+  {q: "Urinating after sexual intercourse helps prevent UTIs.", o: ["True", "False"], a: 0},
+  {q: "Alcohol and caffeine are recommended fluids for patients with UTI.", o: ["True", "False"], a: 1},
+  {q: "Renal failure is defined as total or nearly total loss of kidney function.", o: ["True", "False"], a: 0},
+  {q: "There is only one type of renal failure.", o: ["True", "False"], a: 1},
+  {q: "Diabetic nephropathy is the most common/associated/chronic renal failure.", o: ["True", "False"], a: 0},
+  {q: "Hypertension nephrosclerosis is the leading cause of chronic renal failure.", o: ["True", "False"], a: 1},
+  {q: "Neurogenic bladder is caused by impaired nerve fibers from the bladder to the spinal cord.", o: ["True", "False"], a: 0},
+  {q: "Bladder outlet obstruction due to an enlarged prostate gland is a post-renal cause of CRF.", o: ["True", "False"], a: 0},
+  {q: "Poor cardiac function is a renal cause of chronic renal failure.", o: ["True", "False"], a: 1},
+  {q: "Kussmaul breathing in CRF patients is caused by metabolic alkalosis.", o: ["True", "False"], a: 1},
+  {q: "Pruritus (itching) in CRF patients is due to accumulation of urea frost on the skin.", o: ["True", "False"], a: 0},
+  {q: "Salt and water retention in CRF can lead to congestive heart failure and hypertension.", o: ["True", "False"], a: 0},
+  {q: "Hemodialysis works by circulating blood through a semi-permeable membrane (dialyzer) to remove toxins.", o: ["True", "False"], a: 0},
+  {q: "An AV fistula involves the surgical joining of an artery and vein under the skin.", o: ["True", "False"], a: 0},
+  {q: "Kidney stones in both ureters are a pre-renal cause of CRF.", o: ["True", "False"], a: 1},
+  {q: "Renal biopsy is one of the laboratory/diagnostic studies used to evaluate CRF.", o: ["True", "False"], a: 0},
+  {q: "Osteomalacia and renal osteodystrophy are skeletal complications of chronic renal failure.", o: ["True", "False"], a: 0},
+  {q: "Dialysis is only indicated when a kidney transplant is not possible.", o: ["True", "False"], a: 1},
+  {q: "The MOST common cause of chronic renal failure is:", o: ["Hypertension Nephrosclerosis", "Polycystic kidney disease", "Diabetic nephropathy", "Chronic glomerulonephritis"], a: 2},
+  {q: "Which gastrointestinal symptom is associated with chronic renal failure?", o: ["Melena and constipation", "Anorexia, nausea, vomiting, and diarrhea", "Jaundice and hepatomegaly", "Dysphagia and heartburn"], a: 1},
+  {q: "Rapid deep breathing (Kussmaul breathing) in CRF patients is caused by:", o: ["Pulmonary edema", "Metabolic alkalosis", "Metabolic acidosis", "Respiratory infection"], a: 2},
+  {q: "Which skin change is associated with CRF?", o: ["Pale white skin", "Red flushed skin", "Yellow or brown skin discolouration with increased pigmentation", "Blue cyanotic skin"], a: 2}
+];
+let current=0,bank=[];const app=document.getElementById('app');
+function shuffle(a){return [...a].sort(()=>Math.random()-.5)}
+function home(){app.innerHTML=`<section class="card home"><h1>Nursing Quiz Bank</h1><button class="btn primary" onclick="start()">بدء الاختبار</button></section>`}
+function start(){bank=shuffle(QUESTIONS);current=0;render()}
+function render(){const q=bank[current];app.innerHTML=`<section class="card"><div class="title">سؤال ${current+1} من ${bank.length}</div><div class="q">${q.q}</div><div class="opts">${q.o.map((o,i)=>`<div class="opt" onclick="check(${i},this)">${o}</div>`).join('')}</div></section>`}
+function check(idx, el){const q=bank[current];if(idx===q.a){el.classList.add('correct');}else{el.classList.add('wrong');el.parentElement.children[q.a].classList.add('correct');}Array.from(el.parentElement.children).forEach(c=>c.style.pointerEvents='none');setTimeout(()=>{current++;current<bank.length?render():finish()},1000)}
+function finish(){app.innerHTML=`<section class="card score"><h1>انتهى الاختبار!</h1><button class="btn primary" onclick="home()">البداية</button></section>`}
+home();
+</script>
+</body>
+</html>
